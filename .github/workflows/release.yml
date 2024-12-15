@@ -1,0 +1,36 @@
+name: Release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    name: Build GitHub Action
+    runs-on: ubuntu-latest
+    container: node:16
+    steps:
+    - name: Install packages
+      run: |
+        apt-get update
+        apt-get install -y rsync
+    - uses: actions/checkout@v3
+    - name: Install dependencies
+      run: npm ci -q
+    - name: Build release
+      run: |
+        npm run lint
+        npm run build
+        npm run pack
+    - name: Copy files to release
+      run: |
+        mkdir release
+        cp LICENSE release/
+        cp README.md release/
+        cp action.yml release/
+        cp -R dist/ release/dist/
+    - name: Push changes to the branch
+      uses: JamesIves/github-pages-deploy-action@v4.4.1
+      with:
+        branch: release
+        folder: release

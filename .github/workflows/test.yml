@@ -1,0 +1,36 @@
+name: CI / Automated testing
+
+on:
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  release:
+    name: Build GitHub Action
+    runs-on: ubuntu-latest
+    container: node:16
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install dependencies
+      run: npm ci && npm install -g @vercel/ncc
+    - name: Build release
+      run: npm run build && npm run pack
+    - name: Copy files to release
+      run: |
+        mkdir release
+        cp README.md release/
+        cp action.yml release/
+        cp -R dist/ release/dist/
+    - name: Start NeuraLegion Discovery 🏁
+      uses: ./release
+      with:
+        api_token: ${{ secrets.NEXPLOIT_TOKEN }}
+        name: GitHub discovery ${{ github.sha }}
+        discovery_types: |
+          [ "crawler" ]
+        crawler_urls: |
+          [ "https://brokencrystals.com" ]
+        module: "dast"
+        hosts_filter: |
+          [ ]
