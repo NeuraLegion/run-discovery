@@ -31,10 +31,11 @@ const excludedEntryPoints = getArray<RequestExclusion>('exclude_entry_points');
 const discoveryTypesIn = getArray<Discovery>('discovery_types');
 const hostname = core.getInput('hostname');
 const subdomainsCrawl =
-  core.getInput('sub_domains_crawl', { required: false }) ?? false;
+  core.getBooleanInput('sub_domains_crawl', { required: false }) ?? false;
 const maxInteractionsChainLength =
   parseInt(core.getInput('interactions_depth'), 10) || 3;
-const optimizedCrawler = core.getInput('smart', { required: false }) ?? true;
+const optimizedCrawler =
+  core.getBooleanInput('smart', { required: false }) ?? true;
 const repeaters = getArray('repeaters');
 
 const baseUrl = hostname ? `https://${hostname}` : 'https://app.brightsec.com';
