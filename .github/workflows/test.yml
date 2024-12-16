@@ -38,7 +38,7 @@ jobs:
             [ ]
       - name: Stop the discovery 🛑
         id: stop
-        uses: NeuraLegion/stop-discovery@main
+        uses: NeuraLegion/stop-discovery@release
         with:
           api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
           discovery: ${{ steps.discovery.outputs.id }}
