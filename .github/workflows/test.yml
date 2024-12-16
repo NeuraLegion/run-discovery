@@ -23,14 +23,22 @@ jobs:
           cp action.yml release/
           cp -R dist/ release/dist/
       - name: Start Bright Discovery 🏁
+        id: discovery
         uses: ./release
         with:
-          api_token: ${{ secrets.NEXPLOIT_TOKEN }}
+          api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
           name: GitHub discovery ${{ github.sha }}
+          project: ${{ vars.PROJECT_ID }}
+          hostname: ${{ vars.HOSTNAME }}
           discovery_types: |
             [ "crawler" ]
           crawler_urls: |
             [ "https://brokencrystals.com" ]
-          module: 'dast'
           hosts_filter: |
             [ ]
+      - name: Stop the discovery 🛑
+        id: stop
+        uses: NeuraLegion/stop-discovery@release
+        with:
+          api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
+          scan: ${{ steps.discovery.outputs.id }}
