@@ -38,9 +38,7 @@ const maxInteractionsChainLength = parseInt(
 const optimizedCrawler = core.getBooleanInput('smart') || true;
 const repeaters = getArray('repeaters');
 
-const baseUrl = hostname
-  ? `https://${hostname}`
-  : 'https://app.neuralegion.com';
+const baseUrl = hostname ? `https://${hostname}` : 'https://app.brightsec.com';
 
 const client = new HttpClient('GitHub Actions', [], {
   allowRetries: true,
@@ -63,7 +61,7 @@ const create = async (discoveryConfig: Config) => {
       core.setOutput('id', result.id);
     } else {
       core.setFailed(
-        `Failed create discovery. Status code: ${response.statusCode}`
+        `Failed to create discovery. Status code: ${response.statusCode}`
       );
     }
   } catch (err: any) {

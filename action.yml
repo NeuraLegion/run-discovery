@@ -1,5 +1,5 @@
-name: 'Run a NeuraLegion Discovery'
-description: 'Run a NeuraLegion discovery right in GitHub Action'
+name: 'Run a Bright Discovery'
+description: 'Run a Bright discovery right in GitHub Action'
 branding:
   icon: 'upload-cloud'
   color: 'blue'
@@ -8,7 +8,7 @@ inputs:
     description: 'Api Token. You can generate it in Organization section'
     required: true
   hostname:
-    description: 'Hostname. Default is app.neuralegion.com'
+    description: 'Hostname. Default is app.brighsec.com'
     required: false
   project_id:
     description: 'Project ID for Discovery'
