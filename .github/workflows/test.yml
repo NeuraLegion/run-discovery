@@ -9,7 +9,7 @@ jobs:
   release:
     name: Build GitHub Action
     runs-on: ubuntu-latest
-    container: node:16
+    container: node:20
     steps:
       - uses: actions/checkout@v3
       - name: Install dependencies
@@ -28,7 +28,7 @@ jobs:
         with:
           api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
           name: GitHub discovery ${{ github.sha }}
-          project: ${{ vars.PROJECT_ID }}
+          project_id: ${{ vars.PROJECT_ID }}
           hostname: ${{ vars.HOSTNAME }}
           discovery_types: |
             [ "crawler" ]
