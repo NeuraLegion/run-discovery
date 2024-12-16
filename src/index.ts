@@ -74,12 +74,12 @@ const discoveryTypes = !discoveryTypesIn?.length
   : discoveryTypesIn;
 const config: Config = {
   name,
-  authObjectId,
   discoveryTypes,
   subdomainsCrawl,
   maxInteractionsChainLength,
   poolSize,
   optimizedCrawler,
+  ...(authObjectId ? { authObjectId } : {}),
   ...(repeaters ? { repeaters } : {}),
   ...(crawlerUrls ? { crawlerUrls } : {}),
   ...(fileId ? { fileId } : {}),
