@@ -45,19 +45,23 @@ module.exports = {
       'error',
       {
         default: [
+          // Static fields
           'public-static-field',
           'protected-static-field',
           'private-static-field',
+          
+          // Instance fields
           'public-instance-field',
           'protected-instance-field',
           'private-instance-field',
+          
+          // Constructors
           'constructor',
+          
+          // Methods
           'public-static-method',
           'protected-static-method',
           'private-static-method',
-          'public-abstract-method',
-          'protected-abstract-method',
-          'private-abstract-method',
           'public-instance-method',
           'protected-instance-method',
           'private-instance-method'

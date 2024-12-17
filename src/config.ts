@@ -30,7 +30,7 @@ export interface Config {
   subdomainsCrawl: boolean;
   exclusions?: Exclusions;
   repeaters?: string[];
-  discoveryTypes?: Discovery[];
+  discoveryTypes: Discovery[];
 }
 
 const invalidUrlProtocols: ReadonlySet<string> = new Set<string>([

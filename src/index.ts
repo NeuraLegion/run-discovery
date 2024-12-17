@@ -25,17 +25,17 @@ const projectId = core.getInput('project_id');
 const authObjectId = core.getInput('auth_object_id');
 const fileId = core.getInput('file_id');
 const crawlerUrls = getArray('crawler_urls');
-const poolSize = parseInt(core.getInput('concurrency'), 10);
+const poolSize = parseInt(core.getInput('concurrency'), 10) || 10;
 const hostsFilter = getArray('hosts_filter');
 const excludedEntryPoints = getArray<RequestExclusion>('exclude_entry_points');
 const discoveryTypesIn = getArray<Discovery>('discovery_types');
 const hostname = core.getInput('hostname');
-const subdomainsCrawl = core.getBooleanInput('sub_domains_crawl') || false;
-const maxInteractionsChainLength = parseInt(
-  core.getInput('interactions_depth'),
-  3
-);
-const optimizedCrawler = core.getBooleanInput('smart') || true;
+const subdomainsCrawl =
+  (core.getInput('sub_domains_crawl') || 'false').toLowerCase() === 'true';
+const maxInteractionsChainLength =
+  parseInt(core.getInput('interactions_depth'), 10) || 3;
+const optimizedCrawler =
+  (core.getInput('smart') || 'false').toLowerCase() === 'true';
 const repeaters = getArray('repeaters');
 
 const baseUrl = hostname ? `https://${hostname}` : 'https://app.brightsec.com';
@@ -74,12 +74,12 @@ const discoveryTypes = !discoveryTypesIn?.length
   : discoveryTypesIn;
 const config: Config = {
   name,
-  authObjectId,
   discoveryTypes,
   subdomainsCrawl,
   maxInteractionsChainLength,
   poolSize,
   optimizedCrawler,
+  ...(authObjectId ? { authObjectId } : {}),
   ...(repeaters ? { repeaters } : {}),
   ...(crawlerUrls ? { crawlerUrls } : {}),
   ...(fileId ? { fileId } : {}),
