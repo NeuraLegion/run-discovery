@@ -53,8 +53,8 @@ jobs:
           project_id: ${{ vars.PROJECT_ID }}
           hostname: ${{ vars.HOSTNAME }}
           restart_discovery_id: ${{ steps.discovery.outputs.id }}
-      - name: Stop the discovery 🛑
-        id: stop
+      - name: Stop the restarted discovery 🛑
+        id: stop-rerun
         uses: NeuraLegion/stop-discovery@release
         with:
           api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
