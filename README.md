@@ -54,9 +54,17 @@ _Example:_ `api_token: ${{ secrets.BRIGHTSEC_TOKEN }}`
 
 ### `project_id`
 
-Provide project-id for the discovery.
+**Required**. Provide project-id for the discovery.
 
 _Example:_ `project_id: ${{ vars.PROJECT_ID }}`
+
+### `restart_discovery_id`
+
+**Required** when restarting an existing discovery by its ID.
+
+Please make sure to only use the necessary parameters. Otherwise, you will get a response with the parameter usage requirements.
+
+_Example:_ `restart_discovery_id: ai3LG8DmVn9Rn1YeqCNRGQ)`
 
 ### `discovery_types`
 

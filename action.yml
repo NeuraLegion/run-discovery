@@ -7,6 +7,9 @@ inputs:
   api_token:
     description: 'Api Token. You can generate it in Organization section'
     required: true
+  restart_discovery_id:
+    description: 'Discovery ID to restart'
+    required: false
   hostname:
     description: 'Hostname. Default is app.brighsec.com'
     required: false
