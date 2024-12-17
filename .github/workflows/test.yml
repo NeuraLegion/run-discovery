@@ -44,3 +44,20 @@ jobs:
           discovery_id: ${{ steps.discovery.outputs.id }}
           project_id: ${{ vars.PROJECT_ID }}
           hostname: ${{ vars.HOSTNAME }}
+      - name: Rerun Bright Discovery 🏁
+        id: discovery-rerun
+        uses: ./release
+        with:
+          api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
+          name: GitHub discovery rerun ${{ github.sha }}
+          project_id: ${{ vars.PROJECT_ID }}
+          hostname: ${{ vars.HOSTNAME }}
+          restart_discovery_id: ${{ steps.discovery.outputs.id }}
+      - name: Stop the restarted discovery 🛑
+        id: stop-rerun
+        uses: NeuraLegion/stop-discovery@release
+        with:
+          api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
+          discovery_id: ${{ steps.discovery-rerun.outputs.id }}
+          project_id: ${{ vars.PROJECT_ID }}
+          hostname: ${{ vars.HOSTNAME }}
