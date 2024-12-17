@@ -95,17 +95,12 @@ if (restartDiscoveryId) {
   if (
     !(
       fileId ||
-      projectId ||
       crawlerUrls ||
       discoveryTypesIn ||
       hostsFilter ||
       authObjectId ||
       repeaters ||
-      excludedEntryPoints ||
-      subdomainsCrawl ||
-      maxInteractionsChainLength ||
-      poolSize ||
-      optimizedCrawler
+      excludedEntryPoints
     )
   ) {
     rerun(restartDiscoveryId, name);
