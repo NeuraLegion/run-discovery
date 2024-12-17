@@ -1,0 +1,61 @@
+name: 'Run a Bright Discovery'
+description: 'Run a Bright discovery right in GitHub Action'
+branding:
+  icon: 'upload-cloud'
+  color: 'blue'
+inputs:
+  api_token:
+    description: 'Api Token. You can generate it in Organization section'
+    required: true
+  hostname:
+    description: 'Hostname. Default is app.brighsec.com'
+    required: false
+  project_id:
+    description: 'Project ID for Discovery'
+    required: true
+  file_id:
+    description: 'HAR-file ID'
+    required: false
+  auth_object_id:
+    description: 'Auth object ID'
+    required: false
+  repeaters:
+    description: 'IDs of repeaters needed for the discovery'
+    required: false
+  discovery_types:
+    description: 'Array of discovery types. Can be: archive, crawler, oas'
+    required: false
+  crawler_urls:
+    description: 'Crawler URLs'
+    required: false
+  smart:
+    description: 'Use automatic smart decisions such as: parameter skipping, detection phases, etc. to minimize scan time'
+    required: false
+  exclude_entry_points:
+    description: 'A list of JSON strings that contain patterns for entry points you would like to ignore during the tests. Pass an empty array to remove default exclusions. To apply patterns for all HTTP methods, you can set an empty array to "methods"'
+    required: false
+  hosts_filter:
+    description: 'Hosts filter'
+    required: false
+  name:
+    description: 'Discovery Name'
+    default: 'GitHub Discovery'
+    required: false
+  crawl_parent_subdomains:
+    description: 'Crawl parent path folders and subdomains'
+    required: false
+  concurrency:
+    description: 'Number of maximum concurrent requests allowed to be sent to the target, can range between 1 to 50 (default: 10)'
+    required: false
+  interactions_depth:
+    description: 'Number of maximum interactions with nested objects, can range between 1 to 5 (default: 3)'
+    required: false
+
+outputs:
+  url:
+    description: 'Url of the resulting discovery'
+  id:
+    description: 'Discovery ID'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
