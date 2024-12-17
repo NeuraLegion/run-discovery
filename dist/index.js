@@ -173,6 +173,7 @@ const getArray = (inputName) => {
 const apiToken = core.getInput('api_token', { required: true });
 const name = core.getInput('name');
 const projectId = core.getInput('project_id');
+const restartDiscoveryId = core.getInput('restart_discovery_id');
 const authObjectId = core.getInput('auth_object_id');
 const fileId = core.getInput('file_id');
 const crawlerUrls = getArray('crawler_urls');
@@ -183,7 +184,7 @@ const discoveryTypesIn = getArray('discovery_types');
 const hostname = core.getInput('hostname');
 const subdomainsCrawl = (core.getInput('sub_domains_crawl') || 'false').toLowerCase() === 'true';
 const maxInteractionsChainLength = parseInt(core.getInput('interactions_depth'), 10) || 3;
-const optimizedCrawler = (core.getInput('smart') || 'false').toLowerCase() === 'true';
+const optimizedCrawler = (core.getInput('smart') || 'true').toLowerCase() === 'true';
 const repeaters = getArray('repeaters');
 const baseUrl = hostname ? `https://${hostname}` : 'https://app.brightsec.com';
 const client = new http_client_1.HttpClient('GitHub Actions', [], {
@@ -191,6 +192,23 @@ const client = new http_client_1.HttpClient('GitHub Actions', [], {
     maxRetries: 5,
     headers: { authorization: `Api-Key ${apiToken}` }
 });
+const rerun = async (uuid, discoveryName) => {
+    try {
+        const response = await client.postJson(`${baseUrl}/api/v2/projects/${projectId}/discoveries/${uuid}/rerun`, { name: discoveryName || 'GitHub Actions' });
+        if (response.statusCode < 300 && response.result) {
+            const { result } = response;
+            const url = `${baseUrl}/api/v2/projects/${projectId}/discoveries/${result.id}`;
+            core.setOutput('url', url);
+            core.setOutput('id', result.id);
+        }
+        else {
+            core.setFailed(`Failed retest. Status code: ${response.statusCode}`);
+        }
+    }
+    catch (err) {
+        core.setFailed(`Failed (${err.statusCode}) ${err.message}`);
+    }
+};
 const create = async (discoveryConfig) => {
     try {
         const response = await client.postJson(`${baseUrl}/api/v2/projects/${projectId}/discoveries`, discoveryConfig);
@@ -208,37 +226,53 @@ const create = async (discoveryConfig) => {
         core.setFailed(`Failed (${err.statusCode}) ${err.message}`);
     }
 };
-const discoveryTypes = !discoveryTypesIn?.length
-    ? [discovery_1.Discovery.ARCHIVE]
-    : discoveryTypesIn;
-const config = {
-    name,
-    discoveryTypes,
-    subdomainsCrawl,
-    maxInteractionsChainLength,
-    poolSize,
-    optimizedCrawler,
-    ...(authObjectId ? { authObjectId } : {}),
-    ...(repeaters ? { repeaters } : {}),
-    ...(crawlerUrls ? { crawlerUrls } : {}),
-    ...(fileId ? { fileId } : {}),
-    ...(hostsFilter?.length ? { hostsFilter } : {}),
-    ...(excludedEntryPoints?.length
-        ? {
-            exclusions: {
-                requests: excludedEntryPoints
+if (restartDiscoveryId) {
+    if (!(fileId ||
+        crawlerUrls ||
+        discoveryTypesIn ||
+        hostsFilter ||
+        authObjectId ||
+        repeaters ||
+        excludedEntryPoints)) {
+        rerun(restartDiscoveryId, name);
+    }
+    else {
+        core.setFailed("You don't need parameters, other than api_token, restart_discovery_id, project_id and name, if you just want to rerun an existing discovery");
+    }
+}
+else {
+    const discoveryTypes = !discoveryTypesIn?.length
+        ? [discovery_1.Discovery.ARCHIVE]
+        : discoveryTypesIn;
+    const config = {
+        name,
+        discoveryTypes,
+        subdomainsCrawl,
+        maxInteractionsChainLength,
+        poolSize,
+        optimizedCrawler,
+        ...(authObjectId ? { authObjectId } : {}),
+        ...(repeaters ? { repeaters } : {}),
+        ...(crawlerUrls ? { crawlerUrls } : {}),
+        ...(fileId ? { fileId } : {}),
+        ...(hostsFilter?.length ? { hostsFilter } : {}),
+        ...(excludedEntryPoints?.length
+            ? {
+                exclusions: {
+                    requests: excludedEntryPoints
+                }
             }
-        }
-        : {})
-};
-try {
-    (0, config_1.validateConfig)(config);
+            : {})
+    };
+    try {
+        (0, config_1.validateConfig)(config);
+    }
+    catch (e) {
+        core.setFailed(e.message);
+        throw e;
+    }
+    create(config);
 }
-catch (e) {
-    core.setFailed(e.message);
-    throw e;
-}
-create(config);
 
 
 /***/ }),
