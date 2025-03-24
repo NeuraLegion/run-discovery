@@ -1,6 +1,7 @@
 export enum Discovery {
   ARCHIVE = 'archive',
   CRAWLER = 'crawler',
+  GRAPHQL = 'graphql',
   OAS = 'oas'
 }
 
@@ -33,8 +34,8 @@ const disallowDiscoveryCombination = (discoveryTypes: Set<Discovery>): void => {
 
     throw new Error(
       `The discovery list cannot include both ${
-        firstInvalidCombination?.[0]
-      } and any of ${firstInvalidCombination?.[1].join(', ')} simultaneously.`
+        firstInvalidCombination[0]
+      } and any of ${firstInvalidCombination[1].join(', ')} simultaneously.`
     );
   }
 };
