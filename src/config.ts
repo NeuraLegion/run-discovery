@@ -91,11 +91,12 @@ function validateFileId(
     if (
       !(
         discoveryTypes.includes(Discovery.OAS) ||
-        discoveryTypes.includes(Discovery.ARCHIVE)
+        discoveryTypes.includes(Discovery.ARCHIVE) ||
+        discoveryTypes.includes(Discovery.GRAPHQL)
       )
     ) {
       throw new Error(
-        `Invalid discovery. When specifying a file ID, the discovery type must be either "oas" or "archive". The current discovery types are: ${discoveryTypes.join(
+        `Invalid discovery. When specifying a file ID, the discovery type must be either "oas" or "archive" or "graphql". The current discovery types are: ${discoveryTypes.join(
           ', '
         )}`
       );
@@ -103,10 +104,11 @@ function validateFileId(
   } else {
     if (
       discoveryTypes.includes(Discovery.OAS) ||
-      discoveryTypes.includes(Discovery.ARCHIVE)
+      discoveryTypes.includes(Discovery.ARCHIVE) ||
+      discoveryTypes.includes(Discovery.GRAPHQL)
     ) {
       throw new Error(
-        `Invalid discovery. When setting a discovery type to either "oas" or "archive", the file ID must be provided.`
+        `Invalid discovery. When setting a discovery type to either "oas" or "archive" or "graphql", the file ID must be provided.`
       );
     }
   }
