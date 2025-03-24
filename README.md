@@ -196,7 +196,7 @@ ID of the created discovery.
 steps:
   - name: Start Bright Discovery
     id: start
-    uses: NeuraLegion/run-scan@release
+    uses: NeuraLegion/run-discovery@v1.1
     with:
       api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
       name: GitHub discovery ${{ github.sha }}

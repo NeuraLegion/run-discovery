@@ -11,7 +11,7 @@ inputs:
     description: 'Discovery ID to restart'
     required: false
   hostname:
-    description: 'Hostname. Default is app.brighsec.com'
+    description: 'Hostname. Default is app.brightsec.com'
     required: false
   project_id:
     description: 'Project ID for Discovery'
@@ -26,7 +26,7 @@ inputs:
     description: 'IDs of repeaters needed for the discovery'
     required: false
   discovery_types:
-    description: 'Array of discovery types. Can be: archive, crawler, oas'
+    description: 'Array of discovery types. Possible values: archive, crawler, oas, graphql'
     required: false
   crawler_urls:
     description: 'Crawler URLs'

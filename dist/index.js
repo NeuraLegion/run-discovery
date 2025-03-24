@@ -52,14 +52,16 @@ function validateCrawlerUrls(crawlerUrls, discoveryTypes) {
 function validateFileId(fileId, discoveryTypes) {
     if (fileId) {
         if (!(discoveryTypes.includes(discovery_1.Discovery.OAS) ||
-            discoveryTypes.includes(discovery_1.Discovery.ARCHIVE))) {
-            throw new Error(`Invalid discovery. When specifying a file ID, the discovery type must be either "oas" or "archive". The current discovery types are: ${discoveryTypes.join(', ')}`);
+            discoveryTypes.includes(discovery_1.Discovery.ARCHIVE) ||
+            discoveryTypes.includes(discovery_1.Discovery.GRAPHQL))) {
+            throw new Error(`Invalid discovery. When specifying a file ID, the discovery type must be either "oas" or "archive" or "graphql". The current discovery types are: ${discoveryTypes.join(', ')}`);
         }
     }
     else {
         if (discoveryTypes.includes(discovery_1.Discovery.OAS) ||
-            discoveryTypes.includes(discovery_1.Discovery.ARCHIVE)) {
-            throw new Error(`Invalid discovery. When setting a discovery type to either "oas" or "archive", the file ID must be provided.`);
+            discoveryTypes.includes(discovery_1.Discovery.ARCHIVE) ||
+            discoveryTypes.includes(discovery_1.Discovery.GRAPHQL)) {
+            throw new Error(`Invalid discovery. When setting a discovery type to either "oas" or "archive" or "graphql", the file ID must be provided.`);
         }
     }
 }
@@ -84,6 +86,7 @@ var Discovery;
 (function (Discovery) {
     Discovery["ARCHIVE"] = "archive";
     Discovery["CRAWLER"] = "crawler";
+    Discovery["GRAPHQL"] = "graphql";
     Discovery["OAS"] = "oas";
 })(Discovery || (exports.Discovery = Discovery = {}));
 const validateDiscovery = (discoveryTypes) => {
@@ -106,7 +109,7 @@ const disallowDiscoveryCombination = (discoveryTypes) => {
     ]);
     if (disallowedCombinations.length) {
         const [firstInvalidCombination] = disallowedCombinations;
-        throw new Error(`The discovery list cannot include both ${firstInvalidCombination?.[0]} and any of ${firstInvalidCombination?.[1].join(', ')} simultaneously.`);
+        throw new Error(`The discovery list cannot include both ${firstInvalidCombination[0]} and any of ${firstInvalidCombination[1].join(', ')} simultaneously.`);
     }
 };
 const disallowedDiscoveryCombinations = new Map([
@@ -156,10 +159,10 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const discovery_1 = __nccwpck_require__(4180);
 const config_1 = __nccwpck_require__(1677);
-const http_client_1 = __nccwpck_require__(6255);
+const discovery_1 = __nccwpck_require__(4180);
 const core = __importStar(__nccwpck_require__(2186));
+const http_client_1 = __nccwpck_require__(6255);
 const getArray = (inputName) => {
     const input = core.getInput(inputName);
     try {

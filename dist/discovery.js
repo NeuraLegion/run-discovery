@@ -5,6 +5,7 @@ var Discovery;
 (function (Discovery) {
     Discovery["ARCHIVE"] = "archive";
     Discovery["CRAWLER"] = "crawler";
+    Discovery["GRAPHQL"] = "graphql";
     Discovery["OAS"] = "oas";
 })(Discovery || (exports.Discovery = Discovery = {}));
 const validateDiscovery = (discoveryTypes) => {
@@ -27,7 +28,7 @@ const disallowDiscoveryCombination = (discoveryTypes) => {
     ]);
     if (disallowedCombinations.length) {
         const [firstInvalidCombination] = disallowedCombinations;
-        throw new Error(`The discovery list cannot include both ${firstInvalidCombination?.[0]} and any of ${firstInvalidCombination?.[1].join(', ')} simultaneously.`);
+        throw new Error(`The discovery list cannot include both ${firstInvalidCombination[0]} and any of ${firstInvalidCombination[1].join(', ')} simultaneously.`);
     }
 };
 const disallowedDiscoveryCombinations = new Map([

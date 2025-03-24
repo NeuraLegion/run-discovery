@@ -45,14 +45,16 @@ function validateCrawlerUrls(crawlerUrls, discoveryTypes) {
 function validateFileId(fileId, discoveryTypes) {
     if (fileId) {
         if (!(discoveryTypes.includes(discovery_1.Discovery.OAS) ||
-            discoveryTypes.includes(discovery_1.Discovery.ARCHIVE))) {
-            throw new Error(`Invalid discovery. When specifying a file ID, the discovery type must be either "oas" or "archive". The current discovery types are: ${discoveryTypes.join(', ')}`);
+            discoveryTypes.includes(discovery_1.Discovery.ARCHIVE) ||
+            discoveryTypes.includes(discovery_1.Discovery.GRAPHQL))) {
+            throw new Error(`Invalid discovery. When specifying a file ID, the discovery type must be either "oas" or "archive" or "graphql". The current discovery types are: ${discoveryTypes.join(', ')}`);
         }
     }
     else {
         if (discoveryTypes.includes(discovery_1.Discovery.OAS) ||
-            discoveryTypes.includes(discovery_1.Discovery.ARCHIVE)) {
-            throw new Error(`Invalid discovery. When setting a discovery type to either "oas" or "archive", the file ID must be provided.`);
+            discoveryTypes.includes(discovery_1.Discovery.ARCHIVE) ||
+            discoveryTypes.includes(discovery_1.Discovery.GRAPHQL)) {
+            throw new Error(`Invalid discovery. When setting a discovery type to either "oas" or "archive" or "graphql", the file ID must be provided.`);
         }
     }
 }
