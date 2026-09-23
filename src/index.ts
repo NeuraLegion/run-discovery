@@ -131,7 +131,10 @@ if (restartDiscoveryId) {
             requests: excludedEntryPoints
           }
         }
-      : {})
+      : {}),
+    info: {
+      source: 'github_actions'
+    }
   };
 
   try {
