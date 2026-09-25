@@ -17,6 +17,15 @@ export interface Header {
   mergeStrategy: 'replace';
 }
 
+export interface ToolInfo {
+  source: string;
+  client?: {
+    name: string;
+    version: string;
+  };
+  provider?: string;
+}
+
 export interface Config {
   name: string;
   authObjectId?: string;
@@ -31,6 +40,7 @@ export interface Config {
   exclusions?: Exclusions;
   repeaters?: string[];
   discoveryTypes: Discovery[];
+  info?: ToolInfo;
 }
 
 const invalidUrlProtocols: ReadonlySet<string> = new Set<string>([
