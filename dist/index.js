@@ -265,7 +265,10 @@ else {
                     requests: excludedEntryPoints
                 }
             }
-            : {})
+            : {}),
+        info: {
+            source: 'github_actions'
+        }
     };
     try {
         (0, config_1.validateConfig)(config);
